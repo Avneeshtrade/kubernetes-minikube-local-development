@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: myapp-configmap
+    namespace: dev
+  data:
+    ENV: "dev"
+    DB_HOST: "database-service"
+    DB_PORT: "3307"
+    DB_NAME: "myapp"
+    DB_USERNAME: "root"
+    DB_PASSWORD: "root"
+    PORT: "5000" 
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    name: myapp-db-pod
+    namespace: dev
+    labels:
+      app: database
+  spec:
+    containers:
+    - name: database-container
+      image: dwivediavneesh386/database:1.0.0
+      env:
+      - name: MYSQL_ROOT_PASSWORD
+        value: root
+      - name: DB_NAME
+        value: myapp
+      ports:
+      - containerPort: 3306
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: database-service
+    namespace: dev
+  spec:
+    type: NodePort
+    selector:
+      app: database
+    ports:
+      - targetPort: 3306
+        port: 3307
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    name: myapp-pod
+    namespace: dev
+    labels:
+      app: frontend
+  spec:
+    containers:
+    - name: backend-container
+      image: dwivediavneesh386/backend:1.1.0
+      ports:
+      - containerPort: 5000
+      envFrom:
+      - configMapRef:
+          name: myapp-configmap
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: myapp-service
+    namespace: dev
+  spec:
+    type: NodePort
+    selector:
+      app: frontend
+    ports:
+      - targetPort: 5000
+        port: 5000
+

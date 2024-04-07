@@ -1,0 +1,14 @@
+# Use an official MySQL image as the base image
+FROM mysql:latest
+
+# Copy the custom configuration file to the container
+COPY custom.cnf /etc/mysql/conf.d/custom.cnf
+
+# Environment variables to configure MySQL
+ENV MYSQL_ROOT_PASSWORD=root
+
+# Expose the port on which MySQL listens
+EXPOSE 3306
+
+# CMD to start MySQL server
+CMD ["mysqld"]

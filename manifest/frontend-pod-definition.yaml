@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-frontend-pod
+  namespace: dev
+  labels:
+    app: frontend-react
+spec:
+  containers:
+  - name: frontend-container
+    image: dwivediavneesh386/frontend:1.1.0
+    ports:
+    - containerPort: 80
+    envFrom:
+    - configMapRef:
+        name: myapp-configmap

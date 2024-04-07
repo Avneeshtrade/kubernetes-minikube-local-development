@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  namespace: dev
+  labels:
+    app: frontend
+spec:
+  containers:
+  - name: backend-container
+    image: dwivediavneesh386/backend:2.2.0
+    ports:
+    - containerPort: 5000
+    envFrom:
+    - configMapRef:
+        name: myapp-configmap

@@ -1,0 +1,13 @@
+[mysqld]
+# Set the MySQL character set to UTF-8
+character-set-server = utf8mb4
+
+# Set the MySQL collation to utf8mb4_unicode_ci
+collation-server = utf8mb4_unicode_ci
+
+# Configure MySQL to use a specific timezone
+default-time-zone = '+00:00'
+
+# Enable query logging to a specific file
+general_log_file = /var/log/mysql/mysql.log
+general_log = 1
